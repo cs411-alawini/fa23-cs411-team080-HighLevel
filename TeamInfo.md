@@ -8,9 +8,9 @@
 | Captain     |    jx37@illinois.edu   |
 | Member1     |        Peng Chen       |
 | Member1     |   pengc5@illinois.edu  |
-| Member2     |                        |
+| Member2     |        Xinyu Chen      |
 | Member2     |  xinyuc10@illinois.edu |
-| Member3     |                        |
+| Member3     |        Yukang Qiu      |
 | Member3     |   yqiu30@illinois.edu  |
 
 ## Project Information
