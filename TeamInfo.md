@@ -8,10 +8,10 @@
 | TeamName    |         titans         |
 | Captain     |      Zihao Zheng       |
 | Captain     |  zihao10@illinois.edu  |
-| Member1     |     Rishabh Agrawal    |
-| Member1     |  ra26@illinois.edu     |
-| Member2     |      Vansh Porwal      |
-| Member2     |  vporwal3@illinois.edu |
+| Member1     |       Jincheng Xu      |
+| Member1     |    jx37@illinois.edu   |
+| Member2     |        Xinyu Chen      |
+| Member2     |  xinyuc10@illinois.edu |
 | Member3     |       Heejun Yun       |
 | Member3     | heejun2@illinois.edu   |
 
