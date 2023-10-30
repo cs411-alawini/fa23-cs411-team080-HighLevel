@@ -16,13 +16,12 @@
 - Every user has a unique `USER_ID`.
 - Users can change their password.
 - Usernames are unique, ensuring that each user has a distinct login identity.
-- User types are limited to Student or Professor, and each user belongs to one of these categories.
 
 ### Booking:
 **Description:** This entity represents flight bookings made by users.
 
 **Attributes:**
-- `BOOKING_ID` (String): A unique identifier for each booking.
+- `BOOKING_ID` (Primary Key, String): A unique identifier for each booking.
 - `USER_ID` (Primary Key, Foreign Key to User.USER_ID): References the user who made the booking.
 - `PRICE` (Integer): The price of the booking.
 - `BOOKED_DATE` (Datetime): The date and time when the booking was made.
@@ -85,7 +84,6 @@
 **Description:** This entity represents information about trips taken by users, consisting of one or more flights.
 
 **Attributes:**
-- `BOOKING_ID` (Foreign Key to Booking.BOOKING_ID): References the booking associated with the trip.
 - `FLIGHT_ID` (Foreign Key to Flight.FLIGHT_ID): References the flight(s) associated with the trip.
 - `YEAR` (Integer): Year of the trip.
 - `MONTH` (Integer): Month of the trip.
@@ -228,8 +226,9 @@ User(
 ## Booking:
 ```
 Booking(
-		BOOKING_ID VARCHAR(255),
+		BOOKING_ID VARCHAR(255) [PK],
 		USER_ID VARCHAR(255) [PK] [FK to User.USER_ID],
+		FLIGHT_ID [FK to Trip.FLIGHT_ID],
 		PRICE INT,
 		BOOKED_DATE DATETIME
 )
@@ -259,15 +258,14 @@ Flight(
 		FLIGHT_ID VARCHAR(255) [PK],
 		FLIGHT_NUMBER INT,
 		AIRLINE_IATA INT [FK to Airline.IATA_CODE],
-		ORIGIN_AIRPORT VARCHAR(255) [FK to Airport.IATA_CODE],
-		DESTINATION_AIRPORT VARCHAR(255) [FK to Airport.IATA_CODE],
+		ORIGIN_AIRPORT VARCHAR(255),
+		DESTINATION_AIRPORT VARCHAR(255),
 		TAIL_NUMBER VARCHAR(255)
 )
 ```
 ## Trip:
 ```
 Trip(
-		BOOKING_ID VARCHAR(255) [FK to Booking.BOOKING_ID],
 		FLIGHT_ID VARCHAR(255) [FK to Flight.FLIGHT_ID],
 		YEAR INT,
 		MONTH INT,
@@ -297,6 +295,19 @@ Trip(
 		WEATHER_DELAY BOOL
 )
 ```
+## ToAndFrom:
+```
+ToAndFrom(
+		FLIGHT_ID VARCHAR(255) [FK to Flight.FLIGHT_ID],
+		ORIGIN_AIRPORT VARCHAR(255) [FK to Airport.IATA_CODE],
+		DESTINATION_AIRPORT VARCHAR(255) [FK to Airport.IATA_CODE],
+		PRIMARY KEY (FLIGHT_ID, ORIGIN_AIRPORT, DESTINATION_AIRPORT),
+		FOREIGN KEY (FLIGHT_ID) REFERENCES Flight.FLIGHT_ID ON DELETE CASCADE,
+		FOREIGN KEY (ORIGIN_AIRPORT) REFERENCES Airport.IATA_CODE ON DELETE CASCADE,
+		FOREIGN KEY (DESTINATION_AIRPORT) REFERENCES Airport.IATA_CODE ON DELETE CASCADE
+)
+)
+```
 # DDL Commands in MySQL
 
 ```sql
@@ -308,10 +319,13 @@ CREATE TABLE User (
 
 CREATE TABLE Booking (
     BOOKING_ID VARCHAR(255),
-    USER_ID VARCHAR(255) PRIMARY KEY,
+    USER_ID VARCHAR(255) NOT NULL,
     PRICE INT,
+    FLIGHT_ID VARCHAR(255),
     BOOKED_DATE DATETIME,
+    PRIMARY KEY(USER_ID, BOOKING_ID),
     FOREIGN KEY (USER_ID) REFERENCES User.USER_ID ON DELETE CASCADE
+    FOREIGN KEY (FLIGHT_ID) REFERENCES Trip.FLIGHT_ID ON DELETE CASCADE
 );
 
 CREATE TABLE Airline (
@@ -336,13 +350,10 @@ CREATE TABLE Flight (
     ORIGIN_AIRPORT VARCHAR(255),
     DESTINATION_AIRPORT VARCHAR(255),
     TAIL_NUMBER VARCHAR(255),
-    FOREIGN KEY (AIRLINE_IATA) REFERENCES Airline.IATA_CODE ON DELETE CASCADE,
-    FOREIGN KEY (ORIGIN_AIRPORT) REFERENCES Airport.IATA_CODE ON DELETE CASCADE,
-    FOREIGN KEY (DESTINATION_AIRPORT) REFERENCES Airport.IATA_CODE ON DELETE CASCADE
+    FOREIGN KEY (AIRLINE_IATA) REFERENCES Airline.IATA_CODE ON DELETE CASCADE
 );
 
 CREATE TABLE Trip (
-    BOOKING_ID VARCHAR(255),
     FLIGHT_ID VARCHAR(255),
     YEAR INT,
     MONTH INT,
@@ -370,7 +381,16 @@ CREATE TABLE Trip (
     AIRLINE_DELAY BOOL,
     LATE_AIRCRAFT_DELAY BOOL,
     WEATHER_DELAY BOOL,
-    FOREIGN KEY (BOOKING_ID) REFERENCES Booking.BOOKING_ID ON DELETE CASCADE,
     FOREIGN KEY (FLIGHT_ID) REFERENCES Flight.FLIGHT_ID ON DELETE CASCADE
+);
+
+CREATE TABLE ToAndFrom (
+    FLIGHT_ID VARCHAR(255),
+    ORIGIN_AIRPORT VARCHAR(255),
+    DESTINATION_AIRPORT VARCHAR(255),
+    PRIMARY KEY (FLIGHT_ID, ORIGIN_AIRPORT, DESTINATION_AIRPORT),
+    FOREIGN KEY (FLIGHT_ID) REFERENCES Flight.FLIGHT_ID ON DELETE CASCADE,
+    FOREIGN KEY (ORIGIN_AIRPORT) REFERENCES Airport.IATA_CODE ON DELETE CASCADE,
+    FOREIGN KEY (DESTINATION_AIRPORT) REFERENCES Airport.IATA_CODE ON DELETE CASCADE
 );
 ```
