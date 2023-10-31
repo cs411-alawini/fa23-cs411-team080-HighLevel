@@ -1,5 +1,5 @@
 # ER diagram:
-![Alt Text](https://github.com/cs411-alawini/fa23-cs411-team080-HighLevel/blob/main/doc/411.png)
+![Alt Text](https://github.com/cs411-alawini/fa23-cs411-team080-HighLevel/blob/main/doc/erdiagram.png)
 
 
 ## Entities:
@@ -267,6 +267,7 @@ Flight(
 ```
 Trip(
 		FLIGHT_ID VARCHAR(255) [FK to Flight.FLIGHT_ID],
+		FLIGHT_NUMBER INT,
 		YEAR INT,
 		MONTH INT,
 		DAY INT,
@@ -292,7 +293,8 @@ Trip(
 		SECURITY_DELAY BOOL,
 		AIRLINE_DELAY BOOL,
 		LATE_AIRCRAFT_DELAY BOOL,
-		WEATHER_DELAY BOOL
+		WEATHER_DELAY BOOL,
+		PRIMARY KEY (YEAR, MONTH, DAY, DAY_OF_WEEK, FLIGHT_NUMBER)
 )
 ```
 ## ToAndFrom:
@@ -355,6 +357,7 @@ CREATE TABLE Flight (
 
 CREATE TABLE Trip (
     FLIGHT_ID VARCHAR(255),
+    FLIGHT_NUMBER INT,
     YEAR INT,
     MONTH INT,
     DAY INT,
@@ -381,6 +384,7 @@ CREATE TABLE Trip (
     AIRLINE_DELAY BOOL,
     LATE_AIRCRAFT_DELAY BOOL,
     WEATHER_DELAY BOOL,
+    PRIMARY KEY (YEAR, MONTH, DAY, DAY_OF_WEEK, FLIGHT_NUMBER),
     FOREIGN KEY (FLIGHT_ID) REFERENCES Flight.FLIGHT_ID ON DELETE CASCADE
 );
 
