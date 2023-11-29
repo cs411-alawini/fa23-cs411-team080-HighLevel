@@ -1,47 +1,51 @@
-from .db import get_db
+from app.db import get_db
 
 def insert_user(userid,username, password):
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("INSERT INTO users (USER_ID, USERNAME, PASSWORD) VALUES (%s,%s,%s)", (userid,username, password))
+    query = "INSERT INTO users (USER_ID, USERNAME, PASSWORD) VALUES ('{}', '{}', '{}')".format(userid, username, password)
+    cursor.execute(query)
     db.commit()
     cursor.close()
 def get_user(user_id):
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM Users WHERE USER_ID = %s", (user_id,))
+    query = "SELECT * FROM Users WHERE USER_ID = '{}'".format(user_id)
+    cursor.execute(query)
     user = cursor.fetchone()
     cursor.close()
     return user
 def delete_user(user_id):
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("DELETE FROM Users WHERE USER_ID = %s", (user_id,))
+    query = "DELETE FROM Users WHERE USER_ID = '{}'".format(user_id)
+    cursor.execute(query)
     db.commit()
     cursor.close()
 def update_user(userid,username, password):
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE Users SET USERNAME = %s, PASSWORD = %s WHERE USER_ID = %s", (username, password, userid))
+    
+    query = "UPDATE Users SET USERNAME = '{}', PASSWORD = '{}' WHERE USER_ID = '{}'".format(username, password, userid)
+    cursor.execute(query)
     db.commit()
     cursor.close()
 def flight_search(FLIGHT_ID=None,FLIGHT_NUMBER=None,AIRLINE_IATA=None,TAIL_NUMBER=None):
-    db = get_db
+    db = get_db()
     cursor = db.cursor()
+    query = "SELECT * FROM Flight WHERE 1=1 "
     if FLIGHT_ID :
-        cursor.execute(
-            "SELECT * FROM Flight WHERE FLIGHT_ID = %d" , (FLIGHT_ID)
-        )
+        
+        query += "AND FLIGHT_ID = {}".format(FLIGHT_ID)
     else:
-        query = "SELECT * FROM Flight WHERE 1=1"
         if FLIGHT_NUMBER:
             query += "AND FLIGHT_NUMBER = {}".format(FLIGHT_NUMBER)
         if AIRLINE_IATA:
             query += "AND AIRLINE_IATA = {}".format(AIRLINE_IATA)
         if TAIL_NUMBER:
             query += "AND TAIL_NUMBER = {}".format(TAIL_NUMBER)
-        cursor.execute(query)
-    flightinformation = cursor.fetchone()
+    cursor.execute(query)
+    flightinformation = cursor.fetchall()
     cursor.close()
     return flightinformation
 def detail_search(FLIGHT_ID=None, FLIGHT_NUMBER=None, YEAR=None, MONTH=None, DAY=None, 
@@ -52,12 +56,11 @@ def detail_search(FLIGHT_ID=None, FLIGHT_NUMBER=None, YEAR=None, MONTH=None, DAY
                   CANCELED=None, CANCELLATION_REASON=None, AIR_SYSTEM_DELAY=None, 
                   SECURITY_DELAY=None, AIRLINE_DELAY=None, LATE_AIRCRAFT_DELAY=None, 
                   WEATHER_DELAY=None, ORIGIN_AIRPORT=None, TAIL_NUMBER=None):
-    db = get_db
+    db = get_db()
     cursor = db.cursor()
+    query = "SELECT * FROM Flight WHERE 1=1 "
     if FLIGHT_ID :
-        cursor.execute(
-            "SELECT * FROM Flight JOIN Trip on Flight.FLIGHT_ID = Trip.FLIGHT_ID WHERE FLIGHT_ID = %d" , (FLIGHT_ID)
-        )
+        query += "AND FLIGHT_ID = {}".format(FLIGHT_ID)
     else:
         query = "SELECT * FROM Flight JOIN Trip on Flight.FLIGHT_ID = Trip.FLIGHT_ID WHERE 1=1"
         if FLIGHT_NUMBER:
@@ -130,7 +133,7 @@ def detail_search(FLIGHT_ID=None, FLIGHT_NUMBER=None, YEAR=None, MONTH=None, DAY
         if ORIGIN_AIRPORT:
             query += "AND ORIGIN_AIRPORT = {}".format(ORIGIN_AIRPORT)
             
-        cursor.execute(query)
+    cursor.execute(query)
     flightinformation = cursor.fetchone()
     cursor.close()
     return flightinformation
