@@ -1,0 +1,32 @@
+.Text {
+    margin-left: 20%;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+    border: 3px solid #E84A27;
+    padding: 10px;
+}
+
+
+.Dropdown {
+    display: flex;
+    flex-direction: row;
+}
+
+.Dropdown .OriginationDropdown {
+    margin-right: 10px;
+    
+}
+
+
+.Origination {
+    font-size: large;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: bold;
+}
+
+.Destination {    
+    font-size: large;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: bold;
+}
