@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
-from app.dbop import add_booking, delete_booking, delete_user, detail_search, flight_search, get_booking,insert_user, get_user, update_booking, update_user
+from app.dbop import add_booking, delete_booking, delete_user, detail_search, flight_search, get_booking,insert_user, get_user, update_booking, update_user,search_airport
 
 app = Flask( __name__)
+CORS(app)
 app.config['MYSQL_DATABASE_HOST'] = '34.16.2.40'  # Your MySQL host
 app.config['MYSQL_DATABASE_USER'] = 'root'  # Your MySQL username
 app.config['MYSQL_DATABASE_PASSWORD'] = 'root'  # Your MySQL password
@@ -121,14 +123,14 @@ def booking_detail(user_id):
         return jsonify(booking)
     else:
         return "booking not found", 404
-@app.route('/delete_user/<USER_ID>/<BOOKING_ID>', methods=['DELETE'])
-def delete_user_route(user_id,BOOKING_ID):
+@app.route('/delete_booking/<USER_ID>/<BOOKING_ID>', methods=['DELETE'])
+def delete_booking_route(user_id,BOOKING_ID):
     deleted = delete_booking(BOOKING_ID,user_id)
     if deleted:
         return jsonify({"message": "booking deleted successfully"}), 200
     
-@app.route('/update_user/<int:user_id>', methods=['PUT'])
-def update_user_route(user_id):
+@app.route('/update_booking/<int:user_id>', methods=['PUT'])
+def update_booking_route(user_id):
     BOOKING_ID = request.json.get('username')
     FLIGHT_ID = request.json.get('password')
     updated = update_booking(BOOKING_ID,user_id, FLIGHT_ID)
@@ -137,7 +139,7 @@ def update_user_route(user_id):
 def search_byairport():
     ORIGIN_AIRPORT = request.args.get('ORIGIN_AIRPORT')
     DESTINATION_AIRPORT = request.args.get('DESTINATION_AIRPORT')
-    flight = search_byairport(ORIGIN_AIRPORT,DESTINATION_AIRPORT)
+    flight = search_airport(ORIGIN_AIRPORT,DESTINATION_AIRPORT)
     return jsonify(flight),200
 
     
