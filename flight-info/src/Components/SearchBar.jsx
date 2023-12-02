@@ -4,8 +4,9 @@ import "./SearchBar.css"
 import { FaSearch } from 'react-icons/fa';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import FlightLandIcon from '@mui/icons-material/FlightLand';
+import PropTypes from 'prop-types';
 
-export const SearchBar = () => {
+export const SearchBar = ({ updateSearchResults }) => {
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -39,7 +40,11 @@ const handleSearch = async () => {
           // Add other parameters like YEAR, MONTH, DAY if needed
         }
       });
+      console.log("handle search called")
+      console.log(response);
       setSearchResults(response.data);
+      // zzh:
+      updateSearchResults(response.data);
     } catch (err) {
       setError('Failed to fetch data. Please try again later.');
       console.error('Error during fetch:', err);
@@ -81,4 +86,8 @@ const handleSearch = async () => {
         </ul>
     </div>
   );
+};
+
+SearchBar.propTypes = {
+  updateSearchResults: PropTypes.func.isRequired,
 };
