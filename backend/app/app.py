@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 
-from app.dbop import delete_user, detail_search, flight_search,insert_user, get_user, update_user
+from app.dbop import add_booking, delete_booking, delete_user, detail_search, flight_search, get_booking,insert_user, get_user, update_booking, update_user
 
 app = Flask( __name__)
 app.config['MYSQL_DATABASE_HOST'] = '34.16.2.40'  # Your MySQL host
@@ -101,4 +101,48 @@ def search_detail():
         return jsonify(information),200
     else:
         return "Flight not found", 404
+    
+    
+# booking
+@app.route('/add_booking', methods=['POST'])
+def Add_Booking():
+    data = request.json
+    BOOKING_ID = data.get('booking_id')
+    USER_ID = data.get('user_id')
+    FLIGHT_ID = data.get('flight_id')
+    BOOKED_DATE = data.get('booked_date')
+    add_booking(BOOKING_ID,USER_ID,FLIGHT_ID,BOOKED_DATE)
+    return "booking added",200
+
+@app.route('/get_booking/<int:user_id>',methods = ['GET'])
+def booking_detail(user_id):
+    booking = get_booking(user_id)
+    if booking is not None:
+        return jsonify(booking)
+    else:
+        return "booking not found", 404
+@app.route('/delete_user/<USER_ID>/<BOOKING_ID>', methods=['DELETE'])
+def delete_user_route(user_id,BOOKING_ID):
+    deleted = delete_booking(BOOKING_ID,user_id)
+    if deleted:
+        return jsonify({"message": "booking deleted successfully"}), 200
+    
+@app.route('/update_user/<int:user_id>', methods=['PUT'])
+def update_user_route(user_id):
+    BOOKING_ID = request.json.get('username')
+    FLIGHT_ID = request.json.get('password')
+    updated = update_booking(BOOKING_ID,user_id, FLIGHT_ID)
+    return jsonify({"message": "User update successfully"}), 200
+@app.route('/search_byairport',methods = ['GET'])
+def search_byairport():
+    ORIGIN_AIRPORT = request.args.get('ORIGIN_AIRPORT')
+    DESTINATION_AIRPORT = request.args.get('DESTINATION_AIRPORT')
+    YEAR = request.args.get('YEAR')
+    MONTH = request.args.get('MONTH')
+    DAY = request.args.get('DAY')
+    flight = search_byairport(ORIGIN_AIRPORT,DESTINATION_AIRPORT,YEAR,MONTH,DAY)
+    return jsonify(flight),200
+
+    
+    
     

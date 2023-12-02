@@ -3,7 +3,7 @@ from app.db import get_db
 def insert_user(userid,username, password):
     db = get_db()
     cursor = db.cursor()
-    query = "INSERT INTO users (USER_ID, USERNAME, PASSWORD) VALUES ('{}', '{}', '{}')".format(userid, username, password)
+    query = "INSERT INTO Users (USER_ID, USERNAME, PASSWORD) VALUES ('{}', '{}', '{}')".format(userid, username, password)
     cursor.execute(query)
     db.commit()
     cursor.close()
@@ -12,7 +12,7 @@ def get_user(user_id):
     cursor = db.cursor()
     query = "SELECT * FROM Users WHERE USER_ID = '{}'".format(user_id)
     cursor.execute(query)
-    user = cursor.fetchone()
+    user = cursor.fetchall()
     cursor.close()
     return user
 def delete_user(user_id):
@@ -137,4 +137,42 @@ def detail_search(FLIGHT_ID=None, FLIGHT_NUMBER=None, YEAR=None, MONTH=None, DAY
     flightinformation = cursor.fetchone()
     cursor.close()
     return flightinformation
-        
+
+def add_booking(BOOKING_ID,USER_ID,FLIGHT_ID,BOOKED_DATE):
+    db = get_db()
+    cursor = db.cursor()
+    query = "INSERT INTO Booking (BOOKING_ID, USER_ID, FLIGHT_ID,BOOKED_DATE) VALUES ('{}', '{}', '{}')".format(BOOKING_ID,USER_ID,FLIGHT_ID,BOOKED_DATE)
+    cursor.execute(query)
+    db.commit()
+    cursor.close()
+    
+def delete_booking(BOOKING_ID,USER_ID):
+    db = get_db()
+    cursor = db.cursor()
+    query = "DELETE FROM Booking WHERE USER_ID = '{}' AND BOOKING_ID = '{}'".format(USER_ID,BOOKING_ID)
+    cursor.execute(query)
+    db.commit()
+    cursor.close()
+def get_booking(USER_ID):
+    db = get_db()
+    cursor = db.cursor()
+    query = "SELECT * FROM Booking WHERE USER_ID = '{}'".format(USER_ID)
+    cursor.execute(query)
+    booking = cursor.fetchall()
+    cursor.close()
+    return booking
+def update_booking(BOOKING_ID,USER_ID, FLIGHT_ID):
+    db = get_db()
+    cursor = db.cursor()
+    query = "UPDATE Booking SET FLIGHT_ID = '{}' WHERE USER_ID = '{}' AND BOOKING_ID = '{}'".format(FLIGHT_ID, USER_ID, BOOKING_ID)
+    cursor.execute(query)
+    db.commit()
+    cursor.close()
+def search_byairport(ORIGIN_AIRPORT,DESTINATION_AIRPORT,YEAR,MONTH,DAY):
+    db = get_db()
+    cursor = db.cursor()
+    query = "SELECT * FROM ToAndFrom JOIN Trip on Trip.FLIGHT_ID = ToAndFrom.FLIGHT_ID WHERE ORIGIN_AIRPORT = '{}' AND DESTINATION_AIRPORT = '{}' AND YEAR = '{}' AND MONTH = '{}' AND DAY = '{}'".format(ORIGIN_AIRPORT,DESTINATION_AIRPORT,YEAR,MONTH,DAY)
+    cursor.execute(query),
+    airport = cursor.fetchall()
+    cursor.close()
+    return airport
