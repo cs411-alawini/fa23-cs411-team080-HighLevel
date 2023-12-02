@@ -137,10 +137,7 @@ def update_user_route(user_id):
 def search_byairport():
     ORIGIN_AIRPORT = request.args.get('ORIGIN_AIRPORT')
     DESTINATION_AIRPORT = request.args.get('DESTINATION_AIRPORT')
-    YEAR = request.args.get('YEAR')
-    MONTH = request.args.get('MONTH')
-    DAY = request.args.get('DAY')
-    flight = search_byairport(ORIGIN_AIRPORT,DESTINATION_AIRPORT,YEAR,MONTH,DAY)
+    flight = search_byairport(ORIGIN_AIRPORT,DESTINATION_AIRPORT)
     return jsonify(flight),200
 
     

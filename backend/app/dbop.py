@@ -168,10 +168,10 @@ def update_booking(BOOKING_ID,USER_ID, FLIGHT_ID):
     cursor.execute(query)
     db.commit()
     cursor.close()
-def search_byairport(ORIGIN_AIRPORT,DESTINATION_AIRPORT,YEAR,MONTH,DAY):
+def search_byairport(ORIGIN_AIRPORT,DESTINATION_AIRPORT):
     db = get_db()
     cursor = db.cursor()
-    query = "SELECT * FROM ToAndFrom JOIN Trip on Trip.FLIGHT_ID = ToAndFrom.FLIGHT_ID WHERE ORIGIN_AIRPORT = '{}' AND DESTINATION_AIRPORT = '{}' AND YEAR = '{}' AND MONTH = '{}' AND DAY = '{}'".format(ORIGIN_AIRPORT,DESTINATION_AIRPORT,YEAR,MONTH,DAY)
+    query = "SELECT * FROM ToAndFrom JOIN Trip on Trip.FLIGHT_ID = ToAndFrom.FLIGHT_ID WHERE ORIGIN_AIRPORT = '{}' AND DESTINATION_AIRPORT = '{}'".format(ORIGIN_AIRPORT,DESTINATION_AIRPORT)
     cursor.execute(query),
     airport = cursor.fetchall()
     cursor.close()
