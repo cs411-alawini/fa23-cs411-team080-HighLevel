@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 
-from app.dbop import add_booking, delete_booking, delete_user, detail_search, flight_search, get_booking,insert_user, get_user, update_booking, update_user
+from app.dbop import add_booking, delete_booking, delete_user, detail_search, flight_search, get_booking,insert_user, get_user, search_airport, update_booking, update_user
 
 app = Flask( __name__)
 app.config['MYSQL_DATABASE_HOST'] = '34.16.2.40'  # Your MySQL host
@@ -10,9 +10,8 @@ app.config['MYSQL_DATABASE_DB'] = 'cs411'  # Your MySQL database name
 @app.route('/add_user', methods=['POST'])
 def add_user():
     userid = request.json.get('userid')
-    username = request.json.get('username')
     password = request.json.get('password')
-    insert_user(userid, username, password)
+    insert_user(userid, password)
     return "User added",200
 
 @app.route('/get_user/<int:user_id>',methods = ['GET'])
@@ -31,9 +30,8 @@ def delete_user_route(user_id):
         return jsonify({"message": "User not found"}), 404
 @app.route('/update_user/<int:user_id>', methods=['PUT'])
 def update_user_route(user_id):
-    username = request.json.get('username')
     password = request.json.get('password')
-    updated = update_user(user_id,username,password)
+    updated = update_user(user_id,password)
     if updated:
         return jsonify({"message": "User update successfully"}), 200
     else:
@@ -121,18 +119,19 @@ def booking_detail(user_id):
         return jsonify(booking)
     else:
         return "booking not found", 404
-@app.route('/delete_user/<USER_ID>/<BOOKING_ID>', methods=['DELETE'])
-def delete_user_route(user_id,BOOKING_ID):
+@app.route('/delete_booking/<USER_ID>/<BOOKING_ID>', methods=['DELETE'])
+def delete_booking_route(user_id,BOOKING_ID):
     deleted = delete_booking(BOOKING_ID,user_id)
     if deleted:
         return jsonify({"message": "booking deleted successfully"}), 200
     
-@app.route('/update_user/<int:user_id>', methods=['PUT'])
-def update_user_route(user_id):
+@app.route('/update_booking/<int:user_id>', methods=['PUT'])
+def update_booking_route(user_id):
     BOOKING_ID = request.json.get('username')
     FLIGHT_ID = request.json.get('password')
     updated = update_booking(BOOKING_ID,user_id, FLIGHT_ID)
     return jsonify({"message": "User update successfully"}), 200
+
 @app.route('/search_byairport',methods = ['GET'])
 def search_byairport():
     ORIGIN_AIRPORT = request.args.get('ORIGIN_AIRPORT')
@@ -140,8 +139,9 @@ def search_byairport():
     YEAR = request.args.get('YEAR')
     MONTH = request.args.get('MONTH')
     DAY = request.args.get('DAY')
-    flight = search_byairport(ORIGIN_AIRPORT,DESTINATION_AIRPORT,YEAR,MONTH,DAY)
-    return jsonify(flight),200
+    flight = search_airport(ORIGIN_AIRPORT,DESTINATION_AIRPORT,YEAR,MONTH,DAY)
+    
+    return jsonify(flight),200 
 
     
     

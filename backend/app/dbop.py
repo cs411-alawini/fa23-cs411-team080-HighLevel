@@ -3,7 +3,7 @@ from app.db import get_db
 def insert_user(userid,username, password):
     db = get_db()
     cursor = db.cursor()
-    query = "INSERT INTO Users (USER_ID, USERNAME, PASSWORD) VALUES ('{}', '{}', '{}')".format(userid, username, password)
+    query = "INSERT INTO Users (USER_ID, PASSWORD) VALUES ('{}', '{}', '{}')".format(userid, password)
     cursor.execute(query)
     db.commit()
     cursor.close()
@@ -22,11 +22,11 @@ def delete_user(user_id):
     cursor.execute(query)
     db.commit()
     cursor.close()
-def update_user(userid,username, password):
+def update_user(userid, password):
     db = get_db()
     cursor = db.cursor()
     
-    query = "UPDATE Users SET USERNAME = '{}', PASSWORD = '{}' WHERE USER_ID = '{}'".format(username, password, userid)
+    query = "UPDATE Users PASSWORD = '{}' WHERE USER_ID = '{}'".format(password, userid)
     cursor.execute(query)
     db.commit()
     cursor.close()
@@ -168,7 +168,7 @@ def update_booking(BOOKING_ID,USER_ID, FLIGHT_ID):
     cursor.execute(query)
     db.commit()
     cursor.close()
-def search_byairport(ORIGIN_AIRPORT,DESTINATION_AIRPORT,YEAR,MONTH,DAY):
+def search_airport(ORIGIN_AIRPORT,DESTINATION_AIRPORT,YEAR,MONTH,DAY):
     db = get_db()
     cursor = db.cursor()
     query = "SELECT * FROM ToAndFrom JOIN Trip on Trip.FLIGHT_ID = ToAndFrom.FLIGHT_ID WHERE ORIGIN_AIRPORT = '{}' AND DESTINATION_AIRPORT = '{}' AND YEAR = '{}' AND MONTH = '{}' AND DAY = '{}'".format(ORIGIN_AIRPORT,DESTINATION_AIRPORT,YEAR,MONTH,DAY)
