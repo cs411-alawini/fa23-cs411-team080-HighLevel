@@ -54,6 +54,8 @@ def login():
 def delete_user_route():
     password = request.json.get('password')
     user_id = request.json.get('userid')
+    print(password, user_id)
+    print(request.json)
     storepassword = login_check(user_id)
     if storepassword is None:
         return "notfound",404

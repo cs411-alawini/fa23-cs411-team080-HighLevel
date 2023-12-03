@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import "./Myflight.css"
 import { CreateUser } from "./CreateUser";
+import { DeleteUser } from "./DeleteUser";
 import { CreateUserResult } from "./CreateUserResult";
 import { LoginUser } from "./LoginUser";
 import { LoginUserResult } from "./LoginUserResult";

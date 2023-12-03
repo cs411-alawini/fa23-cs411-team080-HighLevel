@@ -20,6 +20,24 @@ export const LoginUser = ({ updateUIDLOGResults }) => {
     const handlePWnewChange = (e) => {
         setnewPW(e.target.value);
     };
+
+    const handleDeleteUser = async () => {
+      try {
+        console.log("handle deleteuser called");
+        console.log(uid, pw);
+        const response = await axios.delete('http://127.0.0.1:5000/delete_user', {
+          data: {
+            userid: uid,
+            password: pw,
+          },
+        });
+        console.log(response.status);
+      } catch (err) {
+        setError('Failed to delete user. Please try again later.');
+        console.error('Error during delete user:', err);
+      }
+    };
+    
   
   
   const handleLogin = async () => {
@@ -109,6 +127,13 @@ export const LoginUser = ({ updateUIDLOGResults }) => {
                       ChangePassword
                   </button>
               </div>
+
+              <div className='DeleteButton'>
+                  <button onClick={handleDeleteUser}>
+                      DeleteUser
+                  </button>
+              </div>
+
           </ul>
       </div>
     );
