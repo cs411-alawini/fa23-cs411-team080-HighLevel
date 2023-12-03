@@ -20,7 +20,7 @@ def login_check(userid):
     cursor = db.cursor()
     query = "SELECT PASSWORD FROM User WHERE USER_ID = '{}'".format(userid)
     cursor.execute(query)
-    password = cursor.fetchall()
+    password = cursor.fetchone()
     cursor.close()
     return password[0]
     
