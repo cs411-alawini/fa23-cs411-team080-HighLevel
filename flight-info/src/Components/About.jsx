@@ -23,6 +23,7 @@ function About() {
       <div>
         <div><StorageIcon/> Backend</div>
         <p>Xinyu Chen</p>
+        <p>Heejune</p>
         <p></p>
       </div>
 
