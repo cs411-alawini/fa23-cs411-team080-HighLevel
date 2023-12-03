@@ -66,11 +66,12 @@ def update_user_route():
     if storepassword is None:
         return "notfound",404
     if password == storepassword:
-        updated = update_user(user_id,newpassword)
-        if updated:
+        update_user(user_id,newpassword)
+        temp = login_check(user_id)
+        if temp == newpassword:
             return jsonify({"message": "User update successfully"}), 200
         else:
-            return jsonify({"message": "User not found"}), 404
+            return jsonify({"message": "failed to change"}), 404
     else:
         return "password not same",406
     
