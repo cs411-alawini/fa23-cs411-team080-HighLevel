@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from app.dbop import add_booking, delete_booking, delete_user, detail_search, flight_search, get_booking,insert_user, get_user, search_airport, update_booking, update_user
+from app.dbop import add_booking, delete_booking, delete_user, detail_search, flight_search, get_booking,insert_user, get_user, login_check, search_airport, update_booking, update_user
 
 app = Flask( __name__)
 CORS(app)
@@ -23,6 +23,22 @@ def user_detail(user_id):
         return jsonify(user)
     else:
         return "User not found", 404
+    
+@app.route('/login',methods = ['GET'])
+def login():
+    userid = request.args.get('userid')
+    password = request.args.get('password')
+    storepassword = login_check(userid)
+    if storepassword is None:
+        return "notfound",404
+    if password == storepassword:
+        return "success",200
+    else :
+        return "password not same",406
+    
+    
+    
+
 @app.route('/delete_user/<int:user_id>', methods=['DELETE'])
 def delete_user_route(user_id):
     deleted = delete_user(user_id)

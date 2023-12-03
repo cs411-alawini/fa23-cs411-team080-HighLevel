@@ -14,6 +14,16 @@ def insert_user(userid, password):
         return jsonify({"message": "User ID already exists"}), 409
     finally:
         cursor.close()
+        
+def login_check(userid):
+    db = get_db()
+    cursor = db.cursor()
+    query = "SELECT PASSWORD FROM User WHERE USER_ID = '{}'".format(userid)
+    cursor.execute(query)
+    password = cursor.fetchall()
+    cursor.close()
+    return password[0]
+    
 def get_user(user_id):
     db = get_db()
     cursor = db.cursor()
