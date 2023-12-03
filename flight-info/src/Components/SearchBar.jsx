@@ -41,8 +41,8 @@ const handleSearch = async () => {
         }
       });
       console.log("handle search called")
-      console.log(response);
-      setSearchResults(response.data);
+      // console.log(response);
+      // setSearchResults(response.data);
       // zzh:
       updateSearchResults(response.data);
     } catch (err) {

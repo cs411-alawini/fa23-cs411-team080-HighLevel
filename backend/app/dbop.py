@@ -1,16 +1,23 @@
+from flask import jsonify
+from pymysql import IntegrityError
 from app.db import get_db
 
-def insert_user(userid,username, password):
+def insert_user(userid, password):
     db = get_db()
     cursor = db.cursor()
-    query = "INSERT INTO Users (USER_ID, USERNAME, PASSWORD) VALUES ('{}', '{}', '{}')".format(userid, username, password)
-    cursor.execute(query)
-    db.commit()
-    cursor.close()
+    try:
+        query = "INSERT INTO User (USER_ID, PASSWORD) VALUES ('{}', '{}')".format(userid, password)
+        cursor.execute(query)
+        db.commit()
+        return jsonify({"message": "User added"}), 200
+    except IntegrityError:
+        return jsonify({"message": "User ID already exists"}), 409
+    finally:
+        cursor.close()
 def get_user(user_id):
     db = get_db()
     cursor = db.cursor()
-    query = "SELECT * FROM Users WHERE USER_ID = '{}'".format(user_id)
+    query = "SELECT * FROM User WHERE USER_ID = '{}'".format(user_id)
     cursor.execute(query)
     user = cursor.fetchall()
     cursor.close()
@@ -18,15 +25,15 @@ def get_user(user_id):
 def delete_user(user_id):
     db = get_db()
     cursor = db.cursor()
-    query = "DELETE FROM Users WHERE USER_ID = '{}'".format(user_id)
+    query = "DELETE FROM User WHERE USER_ID = '{}'".format(user_id)
     cursor.execute(query)
     db.commit()
     cursor.close()
-def update_user(userid,username, password):
+def update_user(userid, password):
     db = get_db()
     cursor = db.cursor()
     
-    query = "UPDATE Users SET USERNAME = '{}', PASSWORD = '{}' WHERE USER_ID = '{}'".format(username, password, userid)
+    query = "UPDATE User PASSWORD = '{}' WHERE USER_ID = '{}'".format(password, userid)
     cursor.execute(query)
     db.commit()
     cursor.close()
@@ -168,7 +175,7 @@ def update_booking(BOOKING_ID,USER_ID, FLIGHT_ID):
     cursor.execute(query)
     db.commit()
     cursor.close()
-def search_airport(ORIGIN_AIRPORT,DESTINATION_AIRPORT):
+def search_airport(ORIGIN_AIRPORT,DESTINATION_AIRPORT,YEAR,MONTH,DAY):
     db = get_db()
     cursor = db.cursor()
     query = "SELECT * FROM ToAndFrom JOIN Trip on Trip.FLIGHT_ID = ToAndFrom.FLIGHT_ID WHERE ToAndFrom.ORIGIN_AIRPORT = '{}' AND ToAndFrom.DESTINATION_AIRPORT = '{}'".format(ORIGIN_AIRPORT,DESTINATION_AIRPORT)

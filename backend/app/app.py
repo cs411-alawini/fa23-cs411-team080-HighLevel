@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from app.dbop import add_booking, delete_booking, delete_user, detail_search, flight_search, get_booking,insert_user, get_user, update_booking, update_user,search_airport
+from app.dbop import add_booking, delete_booking, delete_user, detail_search, flight_search, get_booking,insert_user, get_user, search_airport, update_booking, update_user
 
 app = Flask( __name__)
 CORS(app)
@@ -12,10 +12,9 @@ app.config['MYSQL_DATABASE_DB'] = 'cs411'  # Your MySQL database name
 @app.route('/add_user', methods=['POST'])
 def add_user():
     userid = request.json.get('userid')
-    username = request.json.get('username')
     password = request.json.get('password')
-    insert_user(userid, username, password)
-    return "User added",200
+    response = insert_user(userid, password)
+    return response
 
 @app.route('/get_user/<int:user_id>',methods = ['GET'])
 def user_detail(user_id):
@@ -33,9 +32,8 @@ def delete_user_route(user_id):
         return jsonify({"message": "User not found"}), 404
 @app.route('/update_user/<int:user_id>', methods=['PUT'])
 def update_user_route(user_id):
-    username = request.json.get('username')
     password = request.json.get('password')
-    updated = update_user(user_id,username,password)
+    updated = update_user(user_id,password)
     if updated:
         return jsonify({"message": "User update successfully"}), 200
     else:
@@ -135,12 +133,17 @@ def update_booking_route(user_id):
     FLIGHT_ID = request.json.get('password')
     updated = update_booking(BOOKING_ID,user_id, FLIGHT_ID)
     return jsonify({"message": "User update successfully"}), 200
+
 @app.route('/search_byairport',methods = ['GET'])
 def search_byairport():
     ORIGIN_AIRPORT = request.args.get('ORIGIN_AIRPORT')
     DESTINATION_AIRPORT = request.args.get('DESTINATION_AIRPORT')
-    flight = search_airport(ORIGIN_AIRPORT,DESTINATION_AIRPORT)
-    return jsonify(flight),200
+    YEAR = request.args.get('YEAR')
+    MONTH = request.args.get('MONTH')
+    DAY = request.args.get('DAY')
+    flight = search_airport(ORIGIN_AIRPORT,DESTINATION_AIRPORT,YEAR,MONTH,DAY)
+    
+    return jsonify(flight),200 
 
     
     
