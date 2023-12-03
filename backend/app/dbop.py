@@ -1,12 +1,19 @@
+from flask import jsonify
+from pymysql import IntegrityError
 from app.db import get_db
 
 def insert_user(userid,username, password):
     db = get_db()
     cursor = db.cursor()
-    query = "INSERT INTO Users (USER_ID, PASSWORD) VALUES ('{}', '{}', '{}')".format(userid, password)
-    cursor.execute(query)
-    db.commit()
-    cursor.close()
+    try:
+        query = "INSERT INTO Users (USER_ID, PASSWORD) VALUES ('{}', '{}')".format(userid, password)
+        cursor.execute(query)
+        db.commit()
+        return jsonify({"message": "User added"}), 200
+    except IntegrityError:
+        return jsonify({"message": "User ID already exists"}), 409
+    finally:
+        cursor.close()
 def get_user(user_id):
     db = get_db()
     cursor = db.cursor()
