@@ -76,6 +76,7 @@ export const SearchBarResult = ({ searchResults }) => {
               <th>Arrival Airport;</th>
               <th>Flight Number;</th>
               <th>Tail Number;</th>
+              <th>Year;</th>
               <th>Month;</th>
               <th>Day;</th>
               <th>Day Of Week;</th>
@@ -90,6 +91,7 @@ export const SearchBarResult = ({ searchResults }) => {
                 <td>{result[2]}</td>
                 <td>{result[5]}</td>
                 <td>{result[33]}</td>
+                <td>{result[6]}</td>
                 <td>{result[7]}</td>
                 <td>{result[8]}</td>
                 <td>{result[9]}</td>
