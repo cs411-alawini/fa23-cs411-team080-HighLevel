@@ -13,8 +13,8 @@ app.config['MYSQL_DATABASE_DB'] = 'cs411'  # Your MySQL database name
 def add_user():
     userid = request.json.get('userid')
     password = request.json.get('password')
-    insert_user(userid, password)
-    return "User added",200
+    response = insert_user(userid, password)
+    return response
 
 @app.route('/get_user/<int:user_id>',methods = ['GET'])
 def user_detail(user_id):
