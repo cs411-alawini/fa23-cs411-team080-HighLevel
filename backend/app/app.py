@@ -35,9 +35,13 @@ def login():
     userid = request.args.get('userid')
     password = request.args.get('password')
     storepassword = login_check(userid)
-    if storepassword is None:
+    # print("WTFF")
+    # print(password)
+    # print(storepassword[0])
+    # print("WTFF")
+    if storepassword[0] is None:
         return "notfound",404
-    if password == storepassword:
+    if password == storepassword[0]:
         return "success",200
     else :
         return "password not same",406

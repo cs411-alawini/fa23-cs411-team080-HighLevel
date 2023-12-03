@@ -22,7 +22,7 @@ def login_check(userid):
     cursor.execute(query)
     password = cursor.fetchone()
     cursor.close()
-    return password[0]
+    return password
     
 def get_user(user_id):
     db = get_db()
