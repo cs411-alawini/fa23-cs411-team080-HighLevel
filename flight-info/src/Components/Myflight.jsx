@@ -4,6 +4,7 @@ import { CreateUser } from "./CreateUser";
 import { CreateUserResult } from "./CreateUserResult";
 import { LoginUser } from "./LoginUser";
 import { LoginUserResult } from "./LoginUserResult";
+import { UserData } from "./UserData";
 
 
 
@@ -42,6 +43,12 @@ function Myflight() {
             </h2>
             <LoginUser updateUIDLOGResults={updateUIDLOGResults}/>
             <LoginUserResult loggedResults={loggedResults}/>
+        </div>
+        <div>
+            <h2>
+            User Data
+            </h2>
+            <UserData UID = {UID}/>
         </div>
         
       </div>
