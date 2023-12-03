@@ -4,5 +4,12 @@
     justify-content: center;
     width: 70%;
     border: 3px solid #E84A27;
-    padding: 10px;
+    /* padding: 10px; */
+}
+
+.Myflightlayer2 {
+    align-items: left;
+    justify-content: left;
+    width: 100%;
+    border: solid #E84A27;
 }

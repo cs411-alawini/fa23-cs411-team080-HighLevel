@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 export const CreateUser = ({ updateCUResults }) => {
     const [uid, setUID] = useState('');
     const [pw, setPW] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
     const [error, setError] = useState('');
   
   

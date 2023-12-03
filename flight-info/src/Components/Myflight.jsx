@@ -2,25 +2,48 @@ import React, { useState } from 'react'
 import "./Myflight.css"
 import { CreateUser } from "./CreateUser";
 import { CreateUserResult } from "./CreateUserResult";
+import { LoginUser } from "./LoginUser";
+import { LoginUserResult } from "./LoginUserResult";
 
 
 
 function Myflight() {
     const [CUResults, setupdateCUResults] = useState(0);
+    const [loggedResults, setLoggedUIDResults] = useState(0);
+    const [UID, setLoggedUID] = useState("");
 
     const updateCUResults = (results) => {
         setupdateCUResults(results);
         console.log("Curesult changed")
         console.log(CUResults);
     };
+    
+
+    const updateUIDLOGResults = (results,uid) => {
+        setLoggedUIDResults(results)
+        setLoggedUID(uid);
+        console.log("logged uid changed");
+        console.log(loggedResults);
+        console.log(UID);
+    };
 
     return (
       <div className='Myflightlayer1'>
-        <h2>
-          Create User Below
-        </h2>
-        <CreateUser updateCUResults={updateCUResults}/>
-        <CreateUserResult CUResults={CUResults}/>
+        <div>
+            <h2>
+            Create User
+            </h2>
+            <CreateUser updateCUResults={updateCUResults}/>
+            <CreateUserResult CUResults={CUResults}/>
+        </div>
+        <div>
+            <h2>
+            User Login
+            </h2>
+            <LoginUser updateUIDLOGResults={updateUIDLOGResults}/>
+            <LoginUserResult loggedResults={loggedResults}/>
+        </div>
+        
       </div>
     )
   }
