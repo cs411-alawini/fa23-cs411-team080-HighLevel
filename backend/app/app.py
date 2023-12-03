@@ -50,13 +50,22 @@ def login():
     
     
 
-@app.route('/delete_user/<int:user_id>', methods=['DELETE'])
-def delete_user_route(user_id):
-    deleted = delete_user(user_id)
-    if deleted:
-        return jsonify({"message": "User deleted successfully"}), 200
+@app.route('/delete_user', methods=['DELETE'])
+def delete_user_route():
+    password = request.json.get('password')
+    user_id = request.json.get('userid')
+    storepassword = login_check(user_id)
+    if storepassword is None:
+        return "notfound",404
+    if password == storepassword:
+        delete_user(user_id)
+        user = get_user(user_id)
+        if user:
+            return jsonify({"message": "delete not successfully"}), 405
+        else:
+             return jsonify({"message": "User deleted successfully"}), 200
     else:
-        return jsonify({"message": "User not found"}), 404
+        return "password not same",406
 @app.route('/update_user', methods=['PUT'])
 def update_user_route():
     password = request.json.get('password')
