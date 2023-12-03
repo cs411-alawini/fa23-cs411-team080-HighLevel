@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 from app.dbop import add_booking, delete_booking, delete_user, detail_search, flight_search, get_booking,insert_user, get_user, search_airport, update_booking, update_user
 
 app = Flask( __name__)
+CORS(app)
 app.config['MYSQL_DATABASE_HOST'] = '34.16.2.40'  # Your MySQL host
 app.config['MYSQL_DATABASE_USER'] = 'root'  # Your MySQL username
 app.config['MYSQL_DATABASE_PASSWORD'] = 'root'  # Your MySQL password

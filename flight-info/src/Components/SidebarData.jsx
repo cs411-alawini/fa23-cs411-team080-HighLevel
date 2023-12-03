@@ -17,9 +17,9 @@ export const SidebarData = [
         link: "/about"
     },
     {
-        title: "Your Bookings",
+        title: "My Flights",
         icon: <BookmarkIcon />,
-        link: "/yourBookings"
+        link: "/myFlights"
     },
     {
         title: "Airports",

@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./Home.css"
 import { SearchBar } from "./SearchBar";
+import { SearchBarResult } from "./SearchBarResult";
 
 function Home() {
+  const [searchResults, setSearchResults] = useState([]);
+
+  const updateSearchResults = (results) => {
+    setSearchResults(results);
+  };
+
+
   return (
     <div>
       <div className='Text'>
@@ -10,8 +18,10 @@ function Home() {
           Search your flight below!
         </h2>
 
-        <SearchBar />
+        <SearchBar updateSearchResults={updateSearchResults}/>
+        <SearchBarResult searchResults={searchResults}/>
       </div>
+      
 
     </div>
   )
