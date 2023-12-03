@@ -56,14 +56,23 @@ def delete_user_route(user_id):
         return jsonify({"message": "User deleted successfully"}), 200
     else:
         return jsonify({"message": "User not found"}), 404
-@app.route('/update_user/<int:user_id>', methods=['PUT'])
-def update_user_route(user_id):
+@app.route('/update_user', methods=['PUT'])
+def update_user_route():
     password = request.json.get('password')
-    updated = update_user(user_id,password)
-    if updated:
-        return jsonify({"message": "User update successfully"}), 200
+    newpassword = request.json.get('newpassword')
+    user_id = request.json.get('userid')
+    storepassword = login_check(user_id)
+    if storepassword is None:
+        return "notfound",404
+    if password == storepassword:
+        updated = update_user(user_id,newpassword)
+        if updated:
+            return jsonify({"message": "User update successfully"}), 200
+        else:
+            return jsonify({"message": "User not found"}), 404
     else:
-        return jsonify({"message": "User not found"}), 404
+        return "password not same",406
+    
 
 # flight
 @app.route('/search_flight',methods = ['GET'])
