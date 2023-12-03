@@ -17,20 +17,32 @@ export const SearchBarResult = ({ searchResults }) => {
               <p>Departure Airport: {result[1]}</p>
               <p>Arrival Airport: {result[2]}</p>
               <p>Flight Number: {result[5]}</p>
+              <p>Tail Number: {result[33]}</p>
               <p>Year: {result[6]}</p>
-              <p>Arrival Airport: {result[7]}</p>
-              <p>Arrival Airport: {result[8]}</p>
-              <p>Arrival Airport: {result[9]}</p>
-              <p>Arrival Airport: {result[10]}</p>
-              <p>Arrival Airport: {result[11]}</p>
-              <p>Arrival Airport: {result[12]}</p>
-              <p>Arrival Airport: {result[13]}</p>
-              <p>Arrival Airport: {result[14]}</p>
-              <p>Arrival Airport: {result[15]}</p>
-              <p>Arrival Airport: {result[16]}</p>
-              <p>Arrival Airport: {result[17]}</p>
-              <p>Arrival Airport: {result[18]}</p>
-              <p>Arrival Airport: {result[19]}</p>
+              <p>Month: {result[7]}</p>
+              <p>Day: {result[8]}</p>
+              <p>Day Of Week: {result[9]}</p>
+              <p>Schedule Departure: {result[10]}</p>
+              <p>Departure Time: {result[11]}</p>
+              <p>Departure Delay: {result[12]}</p>
+              <p>Taxi Out: {result[13]}</p>
+              <p>Wheels Off: {result[14]}</p>
+              <p>Schedule Time: {result[15]}</p>
+              <p>Elapsed Time: {result[16]}</p>
+              <p>Air Time: {result[17]}</p>
+              <p>Distance(km): {result[18]}</p>
+              <p>Wheels On: {result[19]}</p>
+              <p>Taxi in: {result[20]}</p>
+              <p>Schedule Arrival: {result[21]}</p>
+              <p>Arrival Time: {result[22]}</p>
+              <p>Arrival Ddelay: {result[23]}</p>
+              <p>Diverted: {result[24]}</p>
+              <p>Cancelled: {result[25]}</p>
+              <p>Air System Delay: {result[27]}</p>
+              <p>Security Delay: {result[28]}</p>
+              <p>Airline Delay: {result[29]}</p>
+              <p>Late Aircraft Delay: {result[30]}</p>
+              <p>Weather Delay: {result[31]}</p>
               {/* Add more details as needed */}
             </li>
           ))}
