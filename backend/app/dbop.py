@@ -2,11 +2,11 @@ from flask import jsonify
 from pymysql import IntegrityError
 from app.db import get_db
 
-def insert_user(userid,username, password):
+def insert_user(userid, password):
     db = get_db()
     cursor = db.cursor()
     try:
-        query = "INSERT INTO Users (USER_ID, PASSWORD) VALUES ('{}', '{}')".format(userid, password)
+        query = "INSERT INTO User (USER_ID, PASSWORD) VALUES ('{}', '{}')".format(userid, password)
         cursor.execute(query)
         db.commit()
         return jsonify({"message": "User added"}), 200
@@ -17,7 +17,7 @@ def insert_user(userid,username, password):
 def get_user(user_id):
     db = get_db()
     cursor = db.cursor()
-    query = "SELECT * FROM Users WHERE USER_ID = '{}'".format(user_id)
+    query = "SELECT * FROM User WHERE USER_ID = '{}'".format(user_id)
     cursor.execute(query)
     user = cursor.fetchall()
     cursor.close()
@@ -25,7 +25,7 @@ def get_user(user_id):
 def delete_user(user_id):
     db = get_db()
     cursor = db.cursor()
-    query = "DELETE FROM Users WHERE USER_ID = '{}'".format(user_id)
+    query = "DELETE FROM User WHERE USER_ID = '{}'".format(user_id)
     cursor.execute(query)
     db.commit()
     cursor.close()
@@ -33,7 +33,7 @@ def update_user(userid, password):
     db = get_db()
     cursor = db.cursor()
     
-    query = "UPDATE Users PASSWORD = '{}' WHERE USER_ID = '{}'".format(password, userid)
+    query = "UPDATE User PASSWORD = '{}' WHERE USER_ID = '{}'".format(password, userid)
     cursor.execute(query)
     db.commit()
     cursor.close()
