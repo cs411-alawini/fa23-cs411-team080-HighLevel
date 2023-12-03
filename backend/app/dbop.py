@@ -43,7 +43,7 @@ def update_user(userid, password):
     db = get_db()
     cursor = db.cursor()
     
-    query = "UPDATE User PASSWORD = '{}' WHERE USER_ID = '{}'".format(password, userid)
+    query = "UPDATE User SET PASSWORD = '{}' WHERE USER_ID = '{}'".format(password, userid)
     cursor.execute(query)
     db.commit()
     cursor.close()
