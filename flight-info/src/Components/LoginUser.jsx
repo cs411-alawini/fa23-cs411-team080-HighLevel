@@ -53,13 +53,10 @@ export const LoginUser = ({ updateUIDLOGResults }) => {
         console.log("handle changepw called")
         updateUIDLOGResults(1,-1)
         // console.log(uid,pw)
-        const response = await axios.get('http://127.0.0.1:5000/update_user', {
-            params: {
+        const response = await axios.put('http://127.0.0.1:5000/update_user', {
                 userid: uid,
                 password: pw,
                 newpassword: pwnew,
-            // Add other parameters like YEAR, MONTH, DAY if needed
-            }
         });
         console.log(response.status);
         // setSearchResults(response.data);
@@ -75,7 +72,7 @@ export const LoginUser = ({ updateUIDLOGResults }) => {
     return (
       <div>
           <ul className='Search'>
-              <div className='OrignationSearch'>
+              <div>
                   <input
                   type="text"
                   placeholder="Type USERID"
@@ -84,12 +81,21 @@ export const LoginUser = ({ updateUIDLOGResults }) => {
                   />
               </div>
   
-              <div className='DestinationSearch'>
+              <div>
                   <input
                   type="text"
                   placeholder="Type PASSWORD"
                   value={pw}
                   onChange={handlePWChange}
+                  />
+              </div>
+
+              <div>
+                  <input
+                  type="text"
+                  placeholder="Type NEWPASSWORD"
+                  value={pwnew}
+                  onChange={handlePWnewChange}
                   />
               </div>
   

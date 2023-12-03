@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 export const CreateUser = ({ updateCUResults }) => {
     const [uid, setUID] = useState('');
     const [pw, setPW] = useState('');
-    const [error, setError] = useState('');
   
   
     const handleUIDChange = (e) => {
@@ -19,7 +18,6 @@ export const CreateUser = ({ updateCUResults }) => {
   
   
   const handleCreate = async () => {
-      setError('');
   
       try {
         console.log("handle createuser called")
