@@ -37,11 +37,11 @@ def login():
     storepassword = login_check(userid)
     # print("WTFF")
     # print(password)
-    # print(storepassword[0])
+    # print(storepassword)
     # print("WTFF")
-    if storepassword[0] is None:
+    if storepassword is None:
         return "notfound",404
-    if password == storepassword[0]:
+    if password == storepassword:
         return "success",200
     else :
         return "password not same",406
@@ -62,6 +62,7 @@ def update_user_route():
     newpassword = request.json.get('newpassword')
     user_id = request.json.get('userid')
     storepassword = login_check(user_id)
+    print(password,newpassword,user_id,storepassword)
     if storepassword is None:
         return "notfound",404
     if password == storepassword:
