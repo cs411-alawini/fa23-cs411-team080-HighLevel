@@ -58,9 +58,9 @@ def delete_user_route(user_id):
         return jsonify({"message": "User not found"}), 404
 @app.route('/update_user', methods=['PUT'])
 def update_user_route():
-    password = request.args.get('password')
-    newpassword = request.args.get('newpassword')
-    user_id = request.args.get('userid')
+    password = request.json.get('password')
+    newpassword = request.json.get('newpassword')
+    user_id = request.json.get('userid')
     storepassword = login_check(user_id)
     if storepassword is None:
         return "notfound",404
