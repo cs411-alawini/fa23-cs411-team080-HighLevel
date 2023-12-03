@@ -22,9 +22,10 @@ def add_user():
     response = insert_user(userid, password)
     return response
 
-@app.route('/get_user/<int:user_id>',methods = ['GET'])
-def user_detail(user_id):
-    user = get_user(user_id)
+@app.route('/get_user',methods = ['GET'])
+def user_detail():
+    userid = request.args.get('userid')
+    user = get_user(userid)
     if user is not None:
         return jsonify(user)
     else:
