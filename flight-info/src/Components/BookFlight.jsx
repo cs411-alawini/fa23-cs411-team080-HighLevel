@@ -103,12 +103,14 @@
 
 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import "./BookFlight.css"
 import axios from 'axios'; // Don't forget to import axios
 import PropTypes from 'prop-types';
 
 export const BookFlight = ({ UID }) => {
   const [flightId, setFlightId] = useState('');
+  const [bookedFlights, setBookedFlights] = useState([]);
 
   const handleFlightID = (e) => {
     setFlightId(e.target.value);
@@ -134,6 +136,29 @@ export const BookFlight = ({ UID }) => {
     }
   };
 
+  const handleDisplayBooked = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:5000/get_booking', {
+        params: {
+          user_id: UID,
+        }
+       
+      });
+      // bookedFlights = response.data;
+      setBookedFlights(response.data);
+      console.log("handle Display called")
+    } catch (err) {
+      console.error('Error during fetch booked:', err);
+    }
+  };
+
+  useEffect(() => {
+    // Check if UID is not 0 or -1 before fetching data
+    if (UID !== 0 && UID !== -1) {
+      handleDisplayBooked();
+    }
+  }, [UID]);
+
   return (
     <div>
       <div>
@@ -152,11 +177,31 @@ export const BookFlight = ({ UID }) => {
       </div>
 
       {/* Display booked flights and allow deletion */}
-      {/* Implement code to display booked flights and handle deletion */}
+      <div className='BookedList'>
+        <h2>Booked Flights:</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>BookingID;</th>
+              <th>FlightID;</th>
+              <th>Book Date;</th>
+            </tr>
+          </thead>
+          <tbody>
+            {bookedFlights.map((result, index) => (
+              <tr key={index}>
+                <td>{result[0]}</td>
+                <td>{result[2]}</td>
+                <td>{result[3]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
 
 BookFlight.propTypes = {
-    UID: PropTypes.number.isRequired,
-  };
+  UID: PropTypes.number.isRequired,
+};

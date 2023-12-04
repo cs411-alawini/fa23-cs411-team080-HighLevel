@@ -168,7 +168,7 @@ def Add_Booking():
 
 @app.route('/get_booking',methods = ['GET'])
 def booking_detail():
-    data = request.json
+    data = request.args
     user_id = data.get('user_id')
     booking = get_booking(user_id)
     if booking is not None:
