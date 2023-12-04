@@ -1,10 +1,19 @@
 import React, { useState } from 'react'
 import "./Myflight.css"
+
+// CREATE USER
 import { CreateUser } from "./CreateUser";
 import { CreateUserResult } from "./CreateUserResult";
+
+// LOGIN/CHANGE PWD/DELETE
 import { LoginUser } from "./LoginUser";
 import { LoginUserResult } from "./LoginUserResult";
-import { UserData } from "./UserData";
+
+// UserData
+import { UserData } from "./Userdata";
+
+// BookFlight
+import { BookFlight } from "./BookFlight";
 
 
 
@@ -49,6 +58,13 @@ function Myflight() {
             User Data
             </h2>
             <UserData UID = {UID}/>
+        </div>
+
+        <div>
+            <h2>
+                Book your flight here!
+            </h2>
+            <BookFlight UID = {UID} />
         </div>
         
       </div>

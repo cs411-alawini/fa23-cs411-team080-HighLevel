@@ -200,7 +200,7 @@ def numberbooking():
     cursor.execute(query),
     number = cursor.fetchone()
     cursor.close()
-    return number
+    return number[0]
 def searchbooking(USER_ID,BOOKING_ID):
     db = get_db()
     cursor = db.cursor()

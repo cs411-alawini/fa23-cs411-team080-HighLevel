@@ -155,12 +155,14 @@ def search_detail():
 # booking
 @app.route('/add_booking', methods=['POST'])
 def Add_Booking():
-    data = request.json
+    json = request.json
+    data = json.get('data')
     currentID = numberbooking()
     currentID = currentID + 1
     BOOKING_ID = str(currentID)
-    USER_ID = data.get('user_id')
-    FLIGHT_ID = data.get('flight_id')
+    USER_ID = data.get('userid')
+    FLIGHT_ID = data.get('flightId')
+    print(USER_ID, FLIGHT_ID)
     add_booking(BOOKING_ID,USER_ID,FLIGHT_ID)
     return "booking added",200
 
