@@ -155,10 +155,10 @@ def detail_search(FLIGHT_ID=None, FLIGHT_NUMBER=None, YEAR=None, MONTH=None, DAY
     cursor.close()
     return flightinformation
 
-def add_booking(BOOKING_ID,USER_ID,FLIGHT_ID,BOOKED_DATE):
+def add_booking(BOOKING_ID,USER_ID,FLIGHT_ID):
     db = get_db()
     cursor = db.cursor()
-    query = "INSERT INTO Booking (BOOKING_ID, USER_ID, FLIGHT_ID,BOOKED_DATE) VALUES ('{}', '{}', '{}')".format(BOOKING_ID,USER_ID,FLIGHT_ID,BOOKED_DATE)
+    query = "INSERT INTO Booking (BOOKING_ID, USER_ID, FLIGHT_ID) VALUES ('{}', '{}', '{}')".format(BOOKING_ID,USER_ID,FLIGHT_ID)
     cursor.execute(query)
     db.commit()
     cursor.close()
@@ -193,3 +193,19 @@ def search_airport(ORIGIN_AIRPORT,DESTINATION_AIRPORT,YEAR,MONTH,DAY):
     airport = cursor.fetchall()
     cursor.close()
     return airport
+def numberbooking():
+    db = get_db()
+    cursor = db.cursor()
+    query = "SELECT COUNT(*) FROM Booking"
+    cursor.execute(query),
+    number = cursor.fetchone()
+    cursor.close()
+    return number
+def searchbooking(USER_ID,BOOKING_ID):
+    db = get_db()
+    cursor = db.cursor()
+    query = "SELECT * FROM Booking WHERE USER_ID = '{}' AND BOOKING_ID = '{}'".format(USER_ID,BOOKING_ID)
+    cursor.execute(query),
+    BOOKING = cursor.fetchALL()
+    cursor.close()
+    return BOOKING

@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from app.dbop import add_booking, delete_booking, delete_user, detail_search, flight_search, get_booking,insert_user, get_user, login_check, search_airport, update_booking, update_user
+from app.dbop import add_booking, delete_booking, delete_user, detail_search, flight_search, get_booking,insert_user, get_user, login_check, numberbooking, search_airport, searchbooking, update_booking, update_user
 
 app = Flask( __name__)
 CORS(app)
@@ -156,25 +156,33 @@ def search_detail():
 @app.route('/add_booking', methods=['POST'])
 def Add_Booking():
     data = request.json
-    BOOKING_ID = data.get('booking_id')
+    currentID = numberbooking()
+    currentID = currentID + 1
+    BOOKING_ID = str(currentID)
     USER_ID = data.get('user_id')
     FLIGHT_ID = data.get('flight_id')
-    BOOKED_DATE = data.get('booked_date')
-    add_booking(BOOKING_ID,USER_ID,FLIGHT_ID,BOOKED_DATE)
+    add_booking(BOOKING_ID,USER_ID,FLIGHT_ID)
     return "booking added",200
 
-@app.route('/get_booking/<int:user_id>',methods = ['GET'])
-def booking_detail(user_id):
+@app.route('/get_booking',methods = ['GET'])
+def booking_detail():
+    data = request.json
+    user_id = data.get('user_id')
     booking = get_booking(user_id)
     if booking is not None:
         return jsonify(booking)
     else:
         return "booking not found", 404
-@app.route('/delete_booking/<USER_ID>/<BOOKING_ID>', methods=['DELETE'])
-def delete_booking_route(user_id,BOOKING_ID):
-    deleted = delete_booking(BOOKING_ID,user_id)
-    if deleted:
+@app.route('/delete_booking', methods=['DELETE'])
+def delete_booking_route():
+    USER_ID = request.json.get('user_id')
+    BOOKING_ID = request.json.get('booking_id')
+    delete_booking(BOOKING_ID,USER_ID)
+    findornot = searchbooking(USER_ID,BOOKING_ID)
+    if findornot is None:
         return jsonify({"message": "booking deleted successfully"}), 200
+    else:
+        return jsonify({"message": "failed"}), 406
     
 @app.route('/update_booking/<int:user_id>', methods=['PUT'])
 def update_booking_route(user_id):
