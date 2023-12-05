@@ -119,7 +119,7 @@ export const LoginUser = ({ updateUIDLOGResults }) => {
   
               <div className='SearchButton'>
                   <button onClick={handleLogin}>
-                      LogIn
+                      LogIn/Refresh
                   </button>
               </div>
               <div className='SearchButton'>

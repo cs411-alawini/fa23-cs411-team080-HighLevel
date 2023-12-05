@@ -56,8 +56,6 @@ def login():
 def delete_user_route():
     password = request.json.get('password')
     user_id = request.json.get('userid')
-    print(password, user_id)
-    print(request.json)
     storepassword = login_check(user_id)
     if storepassword is None:
         return "notfound",404
@@ -76,7 +74,6 @@ def update_user_route():
     newpassword = request.json.get('newpassword')
     user_id = request.json.get('userid')
     storepassword = login_check(user_id)
-    print(password,newpassword,user_id,storepassword)
     if storepassword is None:
         return "notfound",404
     if password == storepassword:
@@ -165,7 +162,6 @@ def Add_Booking():
     USER_ID = data.get('userid')
     FLIGHT_ID = data.get('flightId')
     BOOKED_NUMBER = data.get('bookednumber')
-    print(USER_ID, FLIGHT_ID)
     add_booking(BOOKING_ID,USER_ID,FLIGHT_ID,BOOKED_NUMBER)
     return "booking added",200
 

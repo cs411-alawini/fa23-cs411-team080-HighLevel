@@ -158,7 +158,7 @@ def detail_search(FLIGHT_ID=None, FLIGHT_NUMBER=None, YEAR=None, MONTH=None, DAY
 def add_booking(BOOKING_ID,USER_ID,FLIGHT_ID,BOOKED_NUMBER):
     db = get_db()
     cursor = db.cursor()
-    query = "INSERT INTO Booking (BOOKING_ID, USER_ID, FLIGHT_ID,BOOKED_NUMBER) VALUES ('{}', '{}', '{}')".format(BOOKING_ID,USER_ID,FLIGHT_ID,BOOKED_NUMBER)
+    query = "INSERT INTO Booking (BOOKING_ID, USER_ID, FLIGHT_ID,BOOKED_NUMBER) VALUES ('{}', '{}', '{}', '{}')".format(BOOKING_ID,USER_ID,FLIGHT_ID,BOOKED_NUMBER)
     cursor.execute(query)
     db.commit()
     cursor.close()

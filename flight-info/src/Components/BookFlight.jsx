@@ -110,10 +110,15 @@ import PropTypes from 'prop-types';
 
 export const BookFlight = ({ UID }) => {
   const [flightId, setFlightId] = useState('');
+  const [numberTicket, setNumberTicket] = useState('');
   const [bookedFlights, setBookedFlights] = useState([]);
 
   const handleFlightID = (e) => {
     setFlightId(e.target.value);
+  };
+
+  const handleNumber = (e) => {
+    setNumberTicket(e.target.value);
   };
 
   const handleBook = async () => {
@@ -124,6 +129,7 @@ export const BookFlight = ({ UID }) => {
         data: {
           userid: UID,
           flightId: flightId,
+          bookednumber: numberTicket,
         }
         
       });
@@ -172,6 +178,24 @@ export const BookFlight = ({ UID }) => {
       // Handle deletion error scenarios
     }
   };
+
+  
+  const handleChange = async (bookingID) => {
+    try {
+      const response = await axios.put('http://127.0.0.1:5000/update_booking', {
+        // params: {
+          user_id: UID,
+          bookingid: bookingID,
+          flightid: flightId,
+          bookednumber: numberTicket,
+        // }
+      });
+      // Handle booking success or update UI accordingly
+    } catch (err) {
+      console.error('Error during booking:', err);
+      // Handle booking error scenarios
+    }
+  };
   
 
   useEffect(() => {
@@ -192,6 +216,15 @@ export const BookFlight = ({ UID }) => {
         />
       </div>
 
+      <div>
+        <input
+          type="text"
+          placeholder="Number of tickets"
+          value={numberTicket}
+          onChange={handleNumber}
+        />
+      </div>
+
       <div className='BookFlightButton'>
         <button onClick={handleBook}>
           Book This Flight
@@ -207,6 +240,7 @@ export const BookFlight = ({ UID }) => {
               <th>BookingID </th>
               <th>FlightID </th>
               <th>Book Date </th>
+              <th>Number Booked</th>
               <th>Delete this booking</th>
               <th>Change Amount </th>
             </tr>
@@ -217,9 +251,25 @@ export const BookFlight = ({ UID }) => {
                 <td>{result[0]}</td>
                 <td>{result[2]}</td>
                 <td>{result[3]}</td>
+                <th>{result[4]}</th>
                 <td>
                   <button onClick={() => handleDelete(result[0])}>
                     Delete booking
+                  </button>
+                </td>
+
+                <td>
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Ticket number"
+                      value={numberTicket}
+                      onChange={handleNumber}
+                    />
+                  </div>
+
+                  <button onClick={() => handleChange(result[0])}>
+                    Change
                   </button>
                 </td>
               </tr>
