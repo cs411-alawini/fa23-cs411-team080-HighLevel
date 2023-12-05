@@ -22,8 +22,8 @@ export const SidebarData = [
         link: "/myFlights"
     },
     {
-        title: "Airports",
+        title: "Flight Tracker",
         icon: <ConnectingAirportsIcon />,
-        link: "/airports"
+        link: "/flightTracker"
     }
 ]

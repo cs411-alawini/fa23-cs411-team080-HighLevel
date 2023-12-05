@@ -6,6 +6,7 @@ import Home from './Components/Home'
 import About from './Components/About'
 import Myflight from './Components/Myflight'
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { FlightTracker } from './Components/FlightTracker'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route exact path='/home' element={<Home />} />
             <Route path='/about' element={<About/>} />
             <Route caseSensitive={false} path='/myFlights' element={<Myflight/>} />
+            <Route path='/flightTracker' element={<FlightTracker/>} />
         </Routes>
 
         {/* <Sidebar /> */}

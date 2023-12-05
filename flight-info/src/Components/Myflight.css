@@ -1,8 +1,9 @@
 .Myflightlayer1 {
     margin-left: 20%;
+    margin-right: 0;
     align-items: center;
     justify-content: center;
-    width: 70%;
+    width: 80%;
     border: 3px solid #E84A27;
     /* padding: 10px; */
 }

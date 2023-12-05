@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
@@ -220,13 +222,14 @@ def draw_map():
     origin_longitude = float(origin_longitude)
     destination_latitude = float(destination_latitude)
     destination_longitude = float(destination_longitude)
-    path = "/home/root1/projects/cs411/fa23-cs411-team080-HighLevel/backend/output.png"
+    print(origin_latitude,origin_longitude,destination_latitude,destination_longitude)
+    path = "../../output.png"
     draw_map_route(origin_latitude,origin_longitude,destination_latitude,destination_longitude,path)
     return send_file(path, mimetype='image/png'),200
     
     
 def draw_map_route(origin_lat, origin_lon, dest_lat, dest_lon, image_path):
-    fig = plt.figure(figsize=(20, 10)) 
+    fig = plt.figure(figsize=(5, 2.5))
     ax = fig.add_subplot(1, 1, 1, projection=ccrs.PlateCarree())
     ax.add_feature(cfeature.LAND, facecolor='lightgray')
     ax.add_feature(cfeature.OCEAN, facecolor='lightblue')
@@ -234,7 +237,7 @@ def draw_map_route(origin_lat, origin_lon, dest_lat, dest_lon, image_path):
     ax.add_feature(cfeature.BORDERS, linestyle=':')
     origin = (origin_lat, origin_lon)
     destination = (dest_lat, dest_lon)
-    ax.plot([origin[0], destination[0]], [origin[1], destination[1]],
+    ax.plot([origin[1], destination[1]], [origin[0], destination[0]],
             color='red', linestyle='--',
             transform=ccrs.Geodetic())
     ax.set_global()
