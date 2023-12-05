@@ -152,6 +152,28 @@ export const BookFlight = ({ UID }) => {
     }
   };
 
+
+  const handleDelete = async (bookingID) => {
+    try {
+      // Make a request to delete the booking with the given bookingID
+
+      const response = await axios.delete('http://127.0.0.1:5000/delete_booking', {
+        params: {
+          user_id: UID,
+          booking_id: bookingID,
+        }
+      });
+      // Update the state or perform any necessary UI update after deletion
+      console.log("handle Delete called")
+      // For example, if you want to update the displayed booked flights after deletion:
+      handleDisplayBooked();
+    } catch (err) {
+      console.error('Error during deletion:', err);
+      // Handle deletion error scenarios
+    }
+  };
+  
+
   useEffect(() => {
     // Check if UID is not 0 or -1 before fetching data
     if (UID !== 0 && UID !== -1) {
@@ -182,9 +204,11 @@ export const BookFlight = ({ UID }) => {
         <table>
           <thead>
             <tr>
-              <th>BookingID;</th>
-              <th>FlightID;</th>
-              <th>Book Date;</th>
+              <th>BookingID </th>
+              <th>FlightID </th>
+              <th>Book Date </th>
+              <th>Delete this booking</th>
+              <th>Change Amount </th>
             </tr>
           </thead>
           <tbody>
@@ -193,6 +217,11 @@ export const BookFlight = ({ UID }) => {
                 <td>{result[0]}</td>
                 <td>{result[2]}</td>
                 <td>{result[3]}</td>
+                <td>
+                  <button onClick={() => handleDelete(result[0])}>
+                    Delete booking
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>

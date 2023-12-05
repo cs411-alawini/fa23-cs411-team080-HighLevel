@@ -206,7 +206,7 @@ def searchbooking(USER_ID,BOOKING_ID):
     cursor = db.cursor()
     query = "SELECT * FROM Booking WHERE USER_ID = '{}' AND BOOKING_ID = '{}'".format(USER_ID,BOOKING_ID)
     cursor.execute(query),
-    BOOKING = cursor.fetchALL()
+    BOOKING = cursor.fetchall()
     cursor.close()
     return BOOKING
 def get_location(FLIGHT_ID):

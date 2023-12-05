@@ -180,11 +180,13 @@ def booking_detail():
         return "booking not found", 404
 @app.route('/delete_booking', methods=['DELETE'])
 def delete_booking_route():
-    USER_ID = request.json.get('user_id')
-    BOOKING_ID = request.json.get('booking_id')
+    USER_ID = request.args.get('user_id')
+    BOOKING_ID = request.args.get('booking_id')
+    print(USER_ID, BOOKING_ID)
     delete_booking(BOOKING_ID,USER_ID)
     findornot = searchbooking(USER_ID,BOOKING_ID)
-    if findornot is None:
+    print(len(findornot))
+    if len(findornot) == 0:
         return jsonify({"message": "booking deleted successfully"}), 200
     else:
         return jsonify({"message": "failed"}), 406
