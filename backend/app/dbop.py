@@ -155,10 +155,10 @@ def detail_search(FLIGHT_ID=None, FLIGHT_NUMBER=None, YEAR=None, MONTH=None, DAY
     cursor.close()
     return flightinformation
 
-def add_booking(BOOKING_ID,USER_ID,FLIGHT_ID):
+def add_booking(BOOKING_ID,USER_ID,FLIGHT_ID,BOOKED_NUMBER):
     db = get_db()
     cursor = db.cursor()
-    query = "INSERT INTO Booking (BOOKING_ID, USER_ID, FLIGHT_ID) VALUES ('{}', '{}', '{}')".format(BOOKING_ID,USER_ID,FLIGHT_ID)
+    query = "INSERT INTO Booking (BOOKING_ID, USER_ID, FLIGHT_ID,BOOKED_NUMBER) VALUES ('{}', '{}', '{}')".format(BOOKING_ID,USER_ID,FLIGHT_ID,BOOKED_NUMBER)
     cursor.execute(query)
     db.commit()
     cursor.close()
@@ -178,10 +178,10 @@ def get_booking(USER_ID):
     booking = cursor.fetchall()
     cursor.close()
     return booking
-def update_booking(BOOKING_ID,USER_ID, FLIGHT_ID):
+def update_booking(BOOKING_ID,USER_ID, FLIGHT_ID,BOOKED_NUMBER):
     db = get_db()
     cursor = db.cursor()
-    query = "UPDATE Booking SET FLIGHT_ID = '{}' WHERE USER_ID = '{}' AND BOOKING_ID = '{}'".format(FLIGHT_ID, USER_ID, BOOKING_ID)
+    query = "UPDATE Booking SET BOOKED_NUMBER = '{}' WHERE USER_ID = '{}' AND BOOKING_ID = '{}'".format(BOOKED_NUMBER, USER_ID, BOOKING_ID)
     cursor.execute(query)
     db.commit()
     cursor.close()
@@ -209,3 +209,29 @@ def searchbooking(USER_ID,BOOKING_ID):
     BOOKING = cursor.fetchALL()
     cursor.close()
     return BOOKING
+def get_location(FLIGHT_ID):
+    db = get_db()
+    cursor = db.cursor()
+
+    query = """
+    SELECT 
+        o.IATA_CODE_PORT AS OriginAirportCode,
+        o.LATITUDE AS OriginLatitude,
+        o.LONGITUDE AS OriginLongitude,
+        d.IATA_CODE_PORT AS DestinationAirportCode,
+        d.LATITUDE AS DestinationLatitude,
+        d.LONGITUDE AS DestinationLongitude
+    FROM 
+        ToAndFrom t
+    JOIN 
+        Airport o ON t.ORIGIN_AIRPORT = o.IATA_CODE_PORT
+    JOIN 
+        Airport d ON t.DESTINATION_AIRPORT = d.IATA_CODE_PORT
+    WHERE 
+        t.FLIGHT_ID = %s;
+    """
+
+    cursor.execute(query, (FLIGHT_ID,))
+    location = cursor.fetchall()
+    cursor.close()
+    return location

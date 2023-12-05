@@ -1,7 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
-
-from app.dbop import add_booking, delete_booking, delete_user, detail_search, flight_search, get_booking,insert_user, get_user, login_check, numberbooking, search_airport, searchbooking, update_booking, update_user
+import matplotlib.pyplot as plt
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+from app.dbop import add_booking, delete_booking, delete_user, detail_search, flight_search, get_booking, get_location,insert_user, get_user, login_check, numberbooking, search_airport, searchbooking, update_booking, update_user
 
 app = Flask( __name__)
 CORS(app)
@@ -162,8 +164,9 @@ def Add_Booking():
     BOOKING_ID = str(currentID)
     USER_ID = data.get('userid')
     FLIGHT_ID = data.get('flightId')
+    BOOKED_NUMBER = data.get('bookednumber')
     print(USER_ID, FLIGHT_ID)
-    add_booking(BOOKING_ID,USER_ID,FLIGHT_ID)
+    add_booking(BOOKING_ID,USER_ID,FLIGHT_ID,BOOKED_NUMBER)
     return "booking added",200
 
 @app.route('/get_booking',methods = ['GET'])
@@ -186,11 +189,13 @@ def delete_booking_route():
     else:
         return jsonify({"message": "failed"}), 406
     
-@app.route('/update_booking/<int:user_id>', methods=['PUT'])
-def update_booking_route(user_id):
+@app.route('/update_booking', methods=['PUT'])
+def update_booking_route():
+    USER_ID = request.json.get('user_id')
     BOOKING_ID = request.json.get('username')
     FLIGHT_ID = request.json.get('password')
-    updated = update_booking(BOOKING_ID,user_id, FLIGHT_ID)
+    BOOKED_NUMBER = request.json.get('bookednumber')
+    updated = update_booking(BOOKING_ID,USER_ID, FLIGHT_ID,BOOKED_NUMBER)
     return jsonify({"message": "User update successfully"}), 200
 
 @app.route('/search_byairport',methods = ['GET'])
@@ -204,6 +209,38 @@ def search_byairport():
     
     return jsonify(flight),200 
 
+@app.route('/map', methods=['get'])
+def draw_map():
+    FLIGHT_ID = request.args.get('flightId')
+    location = get_location(FLIGHT_ID)
+    for loc in location:
+        origin_airport_code = loc[0]
+        origin_latitude = loc[1]
+        origin_longitude = loc[2]
+        destination_airport_code = loc[3]
+        destination_latitude = loc[4]
+        destination_longitude = loc[5]
+    origin_latitude = float(origin_latitude)
+    origin_longitude = float(origin_longitude)
+    destination_latitude = float(destination_latitude)
+    destination_longitude = float(destination_longitude)
+    path = "/home/root1/projects/cs411/fa23-cs411-team080-HighLevel/backend/output.png"
+    draw_map_route(origin_latitude,origin_longitude,destination_latitude,destination_longitude,path)
+    return send_file(path, mimetype='image/png'),200
     
     
-    
+def draw_map_route(origin_lat, origin_lon, dest_lat, dest_lon, image_path):
+    fig = plt.figure(figsize=(20, 10)) 
+    ax = fig.add_subplot(1, 1, 1, projection=ccrs.PlateCarree())
+    ax.add_feature(cfeature.LAND, facecolor='lightgray')
+    ax.add_feature(cfeature.OCEAN, facecolor='lightblue')
+    ax.add_feature(cfeature.COASTLINE)
+    ax.add_feature(cfeature.BORDERS, linestyle=':')
+    origin = (origin_lat, origin_lon)
+    destination = (dest_lat, dest_lon)
+    ax.plot([origin[0], destination[0]], [origin[1], destination[1]],
+            color='red', linestyle='--',
+            transform=ccrs.Geodetic())
+    ax.set_global()
+    plt.savefig(image_path, bbox_inches='tight', dpi=300)
+    plt.close()
