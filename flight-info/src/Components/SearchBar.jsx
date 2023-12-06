@@ -4,11 +4,17 @@ import "./SearchBar.css"
 import { FaSearch } from 'react-icons/fa';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import FlightLandIcon from '@mui/icons-material/FlightLand';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import TodayIcon from '@mui/icons-material/Today';
+import CalendarViewDayIcon from '@mui/icons-material/CalendarViewDay';
 import PropTypes from 'prop-types';
 
 export const SearchBar = ({ updateSearchResults }) => {
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
+  const [month, setMonth] = useState('');
+  const [day, setDay] = useState('');
+  const [year, setYear] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -20,6 +26,18 @@ export const SearchBar = ({ updateSearchResults }) => {
 
   const handleDestinationChange = (e) => {
     setDestination(e.target.value);
+  };
+
+  const handleMonthChange = (e) => {
+    setMonth(e.target.value);
+  };
+
+  const handleDayChange = (e) => {
+    setDay(e.target.value);
+  };
+
+  const handleYearChange = (e) => {
+    setYear(e.target.value);
   };
 
 //   const handleSearch = () => {
@@ -37,6 +55,10 @@ const handleSearch = async () => {
         params: {
           ORIGIN_AIRPORT: origin,
           DESTINATION_AIRPORT: destination,
+          MONTH: month,
+          DAY: day,
+          YEAR: year,
+
           // Add other parameters like YEAR, MONTH, DAY if needed
         }
       });
@@ -76,6 +98,37 @@ const handleSearch = async () => {
                 onChange={handleDestinationChange}
                 />
             </div>
+
+            <div className='MonthSearch'>
+                <CalendarMonthIcon />
+                <input
+                type="text"
+                placeholder="Month..."
+                value={month}
+                onChange={handleMonthChange}
+                />
+            </div>
+
+            <div className='DaySearch'>
+                <TodayIcon />
+                <input
+                type="text"
+                placeholder="Day..."
+                value={day}
+                onChange={handleDayChange}
+                />
+            </div>
+
+            <div className='YearSearch'>
+                <CalendarViewDayIcon />
+                <input
+                type="text"
+                placeholder="Year..."
+                value={year}
+                onChange={handleYearChange}
+                />
+            </div>
+
 
             <div className='SearchButton'>
                 <button onClick={handleSearch}>
