@@ -189,6 +189,12 @@ def search_airport(ORIGIN_AIRPORT,DESTINATION_AIRPORT,YEAR,MONTH,DAY):
     db = get_db()
     cursor = db.cursor()
     query = "SELECT * FROM ToAndFrom JOIN Trip on Trip.FLIGHT_ID = ToAndFrom.FLIGHT_ID WHERE ToAndFrom.ORIGIN_AIRPORT = '{}' AND ToAndFrom.DESTINATION_AIRPORT = '{}'".format(ORIGIN_AIRPORT,DESTINATION_AIRPORT)
+    if YEAR:
+        query += " AND YEAR = {}".format(YEAR)
+    if MONTH:
+        query += " AND MONTH = {}".format(MONTH)
+    if DAY:
+        query += " AND DAY = {}".format(DAY)
     cursor.execute(query),
     airport = cursor.fetchall()
     cursor.close()
