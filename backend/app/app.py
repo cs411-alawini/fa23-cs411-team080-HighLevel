@@ -178,8 +178,8 @@ def booking_detail():
         return "booking not found", 404
 @app.route('/delete_booking', methods=['DELETE'])
 def delete_booking_route():
-    USER_ID = request.json.get('user_id')
-    BOOKING_ID = request.json.get('booking_id')
+    USER_ID = request.args.get('user_id')
+    BOOKING_ID = request.args.get('booking_id')
     delete_booking(BOOKING_ID,USER_ID)
     findornot = searchbooking(USER_ID,BOOKING_ID)
     if findornot is None:
