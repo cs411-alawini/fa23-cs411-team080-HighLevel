@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "matplotlib": "^1.0.0",
     "my": "^0.3.3",
     "mysql": "^2.18.1",
     "sql": "^0.78.0"

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import "./FlightTracker.css"
 import { useLocation } from 'react-router-dom';
 
 export const FlightTracker = () => {
@@ -32,11 +33,20 @@ export const FlightTracker = () => {
     }, [flightId]); // Dependency on flightId
 
     return (
-        <div>
+        <div className='Tracker1'>
             {imageUrl ? (
-                < img src={imageUrl} alt="Flight Map" />
+                <img 
+                    src={imageUrl} 
+                    alt="Flight Map" 
+                    style={{ 
+                        maxWidth: '100%', 
+                        maxHeight: '100%', 
+                        width: 'auto', 
+                        height: 'auto' 
+                    }}
+                />
             ) : (
-                <p>Loading image...</p >
+                <p>Loading image...</p>
             )}
         </div>
     );
